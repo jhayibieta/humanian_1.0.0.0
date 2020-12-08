@@ -1,0 +1,97 @@
+img.logo {
+    margin-left: 445px;
+    margin-right: 295px;
+    margin-top: 100px;
+    height: 190px;
+    margin-bottom: 20px;
+}
+form#log-in-form {
+    padding-left: 390px;
+    padding-right: 390px;
+}
+a#right {
+   	margin-top: 20px;
+    float: right;
+    font-weight: bold;
+}
+h1#card-content {
+    color: #008076;
+    font-weight: bold;
+    margin-top: 40px;
+}
+a#left {
+	margin-top: 20px;
+    text-align: left;
+    font-weight: bold;
+}
+button#log-in-button {
+    background-color: #008076;
+    font-weight: bold;
+}
+.sidebar{
+	background: #000;
+}
+.navbar-inverse {
+    background-color: #fff;
+    border-color: #fff;
+    box-shadow: 0px 0px 4px 0px;
+    width: 1120px;
+    margin-left: 246px;
+}
+span#glyph {
+    font-weight: bold;
+    font-size: 15px;
+    font-family: calibri;
+    color: #008076;
+}
+.sidebar {
+    height: 657px;
+    width: 244px;
+    position: fixed;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px 0px;
+}
+img.logo-nav {
+    height: 120px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 35px;
+}
+span#glyph-side {
+    font-weight: bold;
+    font-size: 18px;
+    font-family: calibri;
+    color: #008076;
+    margin-left:30px;
+    margin-top: 20px;
+}
+div#dashboard-container {
+    padding-top: 100px;
+    width: 1000px;
+    overflow-x: hidden;
+}
+body#top{
+	overflow-x:hidden;
+}
+div#dashboard-card {
+    height: 185px;
+    box-shadow: 0px 0px 17px 0px #ccc;
+}
+div#dashboard-card-2 {
+    height: 300px;
+    box-shadow: 0px 0px 17px 0px #ccc;
+}
+h5#card-header {
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 10px;
+    color: #008076;
+}
+h2#approval-header {
+    color: #008076;
+    font-weight: bold;
+}
+h4#approval-body {
+    color: #008076;
+
+}
