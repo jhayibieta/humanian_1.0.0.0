@@ -33,8 +33,8 @@
                             <div class="col-md-5 col-lg-5 col-sm-5">
                             </div>
                             <div class="col-md-3 col-lg-3 col-sm-3">
-                                <form method="POST">
-                                    <input type="text" name="search" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
+                                <form method="GET" id="search-form">
+                                    <input type="text" name="search" id="search-text" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
                                 </form>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                     
                     if($employees->num_rows > 0)
                     {
-                      echo '<div class="row">';
+                      echo '<div class="row" id="search-results">';
 
                     while ($row = $employees->fetch_array()) {
                         echo '<div class="col-md-4 lg-4 sm-4">';
@@ -100,10 +100,9 @@
             <div class="modal-content" style="border-radius: 0px;height:500px;margin-top: 50px;width:950px;margin-left: -120px;">
                   <div class="modal-header">
                         <h4 class="text-left">CREATE NEW MESSAGE</h4>
-
                   </div>
                   <div class="modal-body">
-                   
+
                   </div>
 
 
@@ -119,7 +118,22 @@
     <script>window.jQuery || document.write(\script src="../js/jquery-1.8.2.min.js\><\/script>")</script>
 
     <script src="../js/script.js"></script>
-
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#search-text').keyup(function(){
+                var form = $('#search-form');
+                $.ajax({
+                    method: 'GET',
+                    url: 'search.php',
+                    data: form.serialize(),
+                    success: function(data){
+                        $('#search-results').html(data);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
     
