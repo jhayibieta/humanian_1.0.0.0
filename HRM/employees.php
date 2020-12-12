@@ -32,8 +32,8 @@
                         <div class="col-md-5 col-lg-5 col-sm-5">
                         </div>
                         <div class="col-md-3 col-lg-3 col-sm-3">
-                            <form method="POST">
-                                <input type="text" name="search" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
+                            <form method="GET" id="search-form">
+                                <input type="text" name="search" id="search-text" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
                             </form>
                         </div>
                     </div>
@@ -47,6 +47,7 @@
 
 										if($employees->num_rows > 0)
 								    {
+                                        echo '<div id="search-results">';
                     			while($row = $employees->fetch_array()){
                               echo '<a href="view-employee-info.php?$id=' . $row['employeeId']. '">';
                               echo "<div class='panel' id='dashboard-card' style='padding: 15px;'>";
@@ -62,7 +63,9 @@
                               echo "</div>";
                               echo "</div>";
                               echo '</a>';
-                    				}
+                                    }
+                                    
+                                    echo '</div>';
 										}
 										else{
 												echo '<h3 class="text-center">No Records Found</h3>';
@@ -84,5 +87,20 @@
 
     <script src="../js/script.js"></script>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#search-text').keyup(function(){
+                var form = $('#search-form');
+                $.ajax({
+                    method: 'GET',
+                    url: 'search.php',
+                    data: form.serialize(),
+                    success: function(data){
+                        $('#search-results').html(data);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

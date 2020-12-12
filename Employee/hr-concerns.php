@@ -34,8 +34,8 @@
                             <div class="col-md-5 col-lg-5 col-sm-5">
                             </div>
                             <div class="col-md-3 col-lg-3 col-sm-3">
-                                <form method="POST">
-                                    <input type="text" name="search" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
+                                <form method="GET" id="concernshr">
+                                    <input type="text" name="search" id="search-concerns" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
                                 </form>
                             </div>
                         </div>
@@ -53,6 +53,7 @@
 
                                             if($hrc->num_rows > 0)
                                             {
+                                                echo '<div id="hrconcernresult">';
                                                 while($row = $hrc->fetch_array()){
                                                     echo "<div class='panel' id='dashboard-card' style='padding: 15px;'>";
                                                     echo "<div class='row'>";
@@ -67,6 +68,8 @@
                                                     echo "</div>";
                                                     echo "</div>";
                                                 }
+
+                                                echo '</div>';
                                                 
                                             }else{
                                                echo '<h4 class="text-center">No Records Yet</h4>';
@@ -134,7 +137,21 @@
     <script>window.jQuery || document.write(\script src="../js/jquery-1.8.2.min.js\><\/script>")</script>
 
     <script src="../js/script.js"></script>
-
+    <script>
+        $(document).ready(function(){
+            $('#search-concerns').keyup(function(){
+                var form = $('#concernshr');
+                $.ajax({
+                    method: 'GET',
+                    url: 'search-hrconcern.php',
+                    data: form.serialize(),
+                    success: function(data) {
+                        $('#hrconcernresult').html(data);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
 

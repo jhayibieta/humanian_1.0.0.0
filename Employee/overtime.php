@@ -6,6 +6,7 @@
 
 	<meta charset="utf-8">
     <meta name="viewport" content="width=width-device, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/bootstrap-glyphicons.css" >
 
@@ -34,8 +35,8 @@
                             <div class="col-md-5 col-lg-5 col-sm-5">
                             </div>
                             <div class="col-md-3 col-lg-3 col-sm-3">
-                                <form method="POST">
-                                    <input type="text" name="search" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
+                                <form method="GET" id="otsearch">
+                                    <input type="text" name="search" id="datepicker" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
                                 </form>
                             </div>
                         </div>
@@ -54,6 +55,7 @@
 
                                            if($overtime->num_rows > 0)
                                             {
+                                                echo "<div id='otsearchresults'>";
                                                 while($row = $overtime->fetch_array()){
                                                     echo "<div class='panel' id='dashboard-card' style='padding: 15px;'>";
                                                     echo "<div class='row'>";
@@ -68,6 +70,8 @@
                                                     echo "</div>";
                                                     echo "</div>";
                                                 }
+
+                                                echo "</div>";
                                                 
                                             }else{
                                                echo '<h4 class="text-center">No Records Yet</h4>';
@@ -143,9 +147,29 @@
     <script src="../js/bootstrap.js"></script>
         
     <script>window.jQuery || document.write(\script src="../js/jquery-1.8.2.min.js\><\/script>")</script>
-
+    <script src="../js/bootstrap-datepicker.js"></script>
     <script src="../js/script.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
 
+            $('#datepicker').change(function(){
+                var form = $('#otsearch');
+                $.ajax({
+                    method: "GET",
+                    url: 'overtime-search.php',
+                    data: form.serialize(),
+                    success: function(data) {
+                        $('#otsearchresults').html(data);
+                    }
+                })
+            });
+        });
+
+    </script>
 </body>
 </html>
     

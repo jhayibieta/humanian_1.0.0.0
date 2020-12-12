@@ -30,8 +30,8 @@
                         <div class="col-md-5 col-lg-5 col-sm-5">
                         </div>
                         <div class="col-md-3 col-lg-3 col-sm-3">
-                            <form method="POST">
-                                <input type="text" name="search" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
+                            <form method="GET" id="concernshr">
+                                <input type="text" name="search" id="search-concerns" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
 
                                 <?php
                                     
@@ -54,6 +54,7 @@
 
                                     if($result->num_rows > 0)
                                     {
+                                        echo '<div id="hrconcernresult">';
                                     while($row = $result->fetch_array())
                                     {
                                         echo '<a href="view-hr-concern.php?$id=' . $row['hrcId']. '">';
@@ -78,6 +79,8 @@
                                         echo '</a>';
 
                                     }
+
+                                        echo '</div>';
                                     }
                                     else{
                                         echo '<h3 class="text-center">No Records Found</h3>';
@@ -159,7 +162,22 @@
     <script>window.jQuery || document.write(\script src="../js/jquery-1.8.2.min.js\><\/script>")</script>
 
     <script src="../js/script.js"></script>
-
+    
+    <script>
+        $(document).ready(function(){
+            $('#search-concerns').keyup(function(){
+                var form = $('#concernshr');
+                $.ajax({
+                    method: 'GET',
+                    url: 'search-hrconcern.php',
+                    data: form.serialize(),
+                    success: function(data) {
+                        $('#hrconcernresult').html(data);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
 
@@ -177,7 +195,7 @@
         $reason = $_POST['reason'];
         $date = date('y-d-m');
 
-        $overtime = $connect->query("INSERT INTO `tblhrconcern`(`userId`, `teamId`, `hrcTitle`, `hrcContent`, `hrcFiled`, `hrcStatus`) VALUES ('$employee', '$team','$title','$reason','$date','IN-REVIEW')");
+        $overtime = $connect->query("INSERT INTO tblhrconcern(`userId`, `teamId`, `hrcTitle`, `hrcContent`, `hrcFiled`, `hrcStatus`) VALUES ('$employee', '$team','$title','$reason','$date','IN-REVIEW')");
 
         if($overtime === true){
             print '<script>alert("HR-Concern Successfully Filed");</script>';
