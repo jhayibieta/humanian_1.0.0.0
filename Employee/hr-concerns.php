@@ -101,7 +101,14 @@
 
                         <label>Title:</label>
 
-                        <input type="text" class="form-control" name="title" id="title" placeholder="Concern Title" required="required"><br/>
+                        <!-- <input type="text" class="form-control" name="title" id="title" placeholder="Concern Title" required="required"><br/> -->
+                        <select name="title" id="title" class="form-control">
+                            <option selected="true" disabled>Select your HR Concern</option>
+                            <option value="Employee Relations">Employee Relations</option>
+                            <option value="Salary Deduction">Salary Deduction</option>
+                            <option value="Date Regularization">Date Regularization</option>
+                            <option value="Violation">Violation</option>
+                        </select>
 
                         <label>Reason:</label>
                         <textarea class="form-control" id="reason" name="reason" required="required" placeholder="State Your Reason" style="height:150px; margin-bottom: 10px;">
