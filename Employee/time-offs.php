@@ -34,8 +34,14 @@
                             <div class="col-md-5 col-lg-5 col-sm-5">
                             </div>
                             <div class="col-md-3 col-lg-3 col-sm-3">
-                                <form method="POST">
-                                    <input type="text" name="search" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/>
+                                <form method="GET" id="search-form-offs">
+                                    <!-- <input type="text" id="search-leave" name="search" class="form-control" style="margin:7px;border-radius:20px;" placeholder="Search"/> -->
+                                    <select name="search" id="search-leave" class="form-control" style="margin: 7px; border-radius: 20px;">
+                                        <option value="PENDING">PENDING</option>
+                                        <option value="REJECTED">REJECTED</option>
+                                        <option value="APPROVED">APPROVED</option>
+                                        <option value="" selected>-------</option>
+                                    </select>
                                 </form>
                             </div>
                         </div>
@@ -53,6 +59,7 @@
 
                                         if($employees->num_rows > 0)
                                         {
+                                            echo "<div id='time-offs-div'>";
                                             while($row = $employees->fetch_array()){
                                                 echo "<div class='panel' id='dashboard-card' style='padding: 15px;'>";
                                                 echo "<div class='row'>";
@@ -72,7 +79,7 @@
                                                 echo "</div>";
                                                 echo "</div>";
                                             }
-                                            
+                                            echo "</div>";
                                         }else{
                                            echo '<h4 class="text-center">No Records Yet</h4>';
 
@@ -150,6 +157,21 @@
     <script>window.jQuery || document.write(\script src="../js/jquery-1.8.2.min.js\><\/script>")</script>
 
     <script src="../js/script.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#search-leave').change(function(){
+                var form = $('#search-form-offs');
+                $.ajax({
+                    method: 'GET',
+                    url: 'search-timeoffs.php',
+                    data: form.serialize(),
+                    success: function(data){
+                        $('#time-offs-div').html(data);
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>

@@ -95,17 +95,20 @@
                         <div class="row">
                           <div class="col-md-4 lg-4 sm-4">
                             <div class="panel" id="dashboard-card" style="height:100px">
-                              
+                                <h4 class="text-center">VL:</h4>
+                                <h3 class="text-center">4</h3>
                              </div>
                           </div>
                           <div class="col-md-4 lg-4 sm-4">
                             <div class="panel" id="dashboard-card" style="height:100px">
-                            
+                                <h4 class="text-center">SL:</h4>
+                                <h3 class="text-center">3</h3>
                             </div>
                           </div>
                           <div class="col-md-4 lg-4 sm-4">
                             <div class="panel" id="dashboard-card" style="height:100px">
-                              
+                                <h4 class="text-center">EL:</h4>
+                                <h3 class="text-center">2</h3>
                             </div>
                           </div>
                         </div>
