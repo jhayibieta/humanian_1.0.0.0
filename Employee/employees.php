@@ -14,6 +14,126 @@
    <script src="../js/bootstrap.min.js"></script>
 
 </head>
+
+<style>
+    .img-profile1 {
+        width: 50px; 
+        height: 50px; 
+        border-radius: 50%; 
+        border: 1px solid black;
+    }
+
+    .img-profile2 {
+        width: 35px;
+        height: 35px;
+    }
+
+    .img-profile3 {
+        margin-left: 510px;
+        margin-top: 20px;
+    }
+    .call-div {
+        position: absolute; 
+        left: 750px; 
+        top: 20px;
+    }
+
+    .files-div {
+        position: absolute; 
+        left: 450px; 
+        top: 18px;
+    }
+
+    .div-right-info {
+        padding: 20px;
+        position: absolute;
+        top: 0;
+        left: 620px;
+        border-left: 1px solid #ccc;
+        width: 325px;
+        height: 417px;
+        overflow-y: auto;
+    }
+
+    .div-field-chat {
+        width: 65.3%;
+        position: absolute;
+        border-top: 1px solid #ccc;
+        left: 0;
+        top: 350px;
+    }
+
+    .textarea-field {
+        resize: none;
+        width: 430px;
+        height: 40px;
+        max-height: 45px;
+        padding: 8px 0 0 18px;
+        font-size: 14px;
+        margin-top: 10px; 
+        margin-left: 10px; 
+        border-radius: 20px; 
+        outline: none;
+    }
+
+    .convo-field {
+        padding: 10px 0 0 10px;
+        width: 64%;
+        height: 320px;
+        overflow: auto;
+    }
+
+    .message1 {
+        width: 95%;
+        overflow-wrap: break-word;
+        display: block;
+        padding: 1%;
+        margin-top: 10px;
+        background: #ccc;
+        border-radius: 50px;
+    }
+
+    .message2 {
+        width: 95%;
+        overflow-wrap: break-word;
+        display: block;
+        padding: 1%;
+        margin-left: 0;
+        margin-top: 10px;
+        background: #ccc;
+        border-radius: 50px;
+    }
+
+    .partner-chatname {
+        position: absolute; 
+        left: 70px; 
+        top: 25px;
+    }
+
+    .sent-time1 {
+        position: absolute; 
+        left: 70px; 
+        top: 45px;
+        color: #ccc;
+    }
+
+    .partner-chatname1 {
+        position: absolute; 
+        left: 390px; 
+        top: 140px;
+    }
+
+    .sent-time2 {
+        position: absolute; 
+        left: 390px; 
+        top: 160px;
+        color: #ccc;
+    }
+
+    .user-name-1 {
+
+    }
+</style>
 <body id="top">
 
     <?php include("../navigation-employee.php");?>
@@ -44,7 +164,6 @@
                 <?php
 
                     include('../connect.php');
-
                     $employees = $connect->query("SELECT * FROM tblemployees WHERE teamId = '$team'");
 
                     
@@ -72,7 +191,7 @@
                         echo '<h5 class="text-center"><a href="">View</a></h5>';
                         echo '</div>';
                         echo '<div class="col-md-6 lg-6 sm-12">';
-                        echo '<h5 class="text-center"><a href="#messageModal" data-toggle="modal">Message</a></h5>';
+                        echo '<h5 class="text-center"><a href="javascript:void(0);" data-id="'.$row['employeeId'].'" id="messageChat">Message</a></h5>';
                         echo '</div>';
                         echo '</div>';
                         echo '</div>';
@@ -90,28 +209,13 @@
                 ?>
                 
             </div>
-        </div>
-        
-        
-        <div id="messageModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content" style="border-radius: 0px;height:500px;margin-top: 50px;width:950px;margin-left: -120px;">
-                  <div class="modal-header">
-                        <h4 class="text-left">CREATE NEW MESSAGE</h4>
-                  </div>
-                  <div class="modal-body">
+            <div id="messageModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
 
-                  </div>
-
-
+                </div>
             </div>
-
-          </div>
         </div>
-
-
     <script src ="../js/jquery.js"></script>
     <script src="../js/bootstrap.js"></script>
 
@@ -132,7 +236,37 @@
                     }
                 });
             });
+
+            $('#messageChat').click(function(){
+                var id = $(this).data('id');
+                $.ajax({
+                    type: "GET",
+                    url: "chat.php?id=" + id,
+                    data: {id: id},
+                    success: function(data) {
+                        $('.modal-dialog').html(data);
+
+                        $('#messageModal').modal('show');
+                    }
+                });
+            })
         });
+    </script>
+
+    <script>
+        var textarea = document.querySelector('textarea');
+
+        textarea.addEventListener('keydown', autosize);
+                    
+        function autosize(){
+        var el = this;
+        setTimeout(function(){
+            el.style.cssText = 'height:auto; padding:0';
+            // for box-sizing other than "content-box" use:
+            // el.style.cssText = '-moz-box-sizing:content-box';
+            el.style.cssText = 'height:' + el.scrollHeight + 'px';
+        },0);
+        }
     </script>
 </body>
 </html>

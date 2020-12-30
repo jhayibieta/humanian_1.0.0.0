@@ -20,6 +20,7 @@ if($email&&$password)
         $dbemail = $row['userEmail'];
         $dbpass = $row['userPassword'];
         $dbtype = $row['userType'];
+        $dbteam = $row['teamId'];
         $dbstatus = $row['userStatus'];
       }
 
@@ -34,6 +35,7 @@ if($email&&$password)
             print '<script>console.log("success");</script>';
             header("Location:HRM/index.php");
             $_SESSION['dbId'] = $dbId;
+            $_SESSION['dbteam'] = $dbteam;
 
       }
       else if($email==$dbemail&&$password==$dbpass&&$dbtype==1&&$dbstatus==1)

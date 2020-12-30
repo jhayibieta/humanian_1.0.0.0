@@ -46,9 +46,9 @@
                         <label>Department * :</label>
                         <input type="text" class="form-control" name="department" placeholder="Department:" required="required"/></br>
                         <label>Email * :</label>
-                        <input type="email" class="form-control" name="position" placeholder="Email:" required="required"/></br>
+                        <input type="email" class="form-control" name="email" placeholder="Email:" required="required"/></br>
                         <label>Confirm Email * :</label>
-                        <input type="email" class="form-control" name="department" placeholder="Confirm Email:" required="required"/></br>
+                        <input type="email" class="form-control" name="confirmemail" placeholder="Confirm Email:" required="required"/></br>
 
                       </div>
                     </div>
@@ -80,7 +80,7 @@
 </html>
 
 <?php
-
+  
     include('../connect.php');
 
     error_reporting(0);
@@ -90,7 +90,7 @@
     $lastName = $_POST['lastName'];
     $position = $_POST['position'];
     $department = $_POST['department'];
-    $email = $_POST['email'];
+    $email = $_POST['confirmemail'];
     $confirm = $_POST['confirmEmail'];
     $password = SHA1('password');
     $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
@@ -104,10 +104,10 @@
     if(isset($_POST['submit'])){
 
 
-      $insert = $connect->query("INSERT INTO `tblemployees`(`userId`, `teamId`, `employeeFirstname`, `employeePicture`, `employeeMiddlename`, `employeeSurname`, `employeePosition`)
-       VALUES ('$users','$teamId','$firstName','Humanian-logo.png','$middleN  ame','$lastName','$position')");
+      $insert = $connect->query("INSERT INTO `tblemployees`(`userId`, `teamId`, `employeeFirstname`, `employeePicture`, `employeeMiddlename`, `employeeSurname`, `employeeCreated`, `employeePosition`)
+       VALUES ('$users','$teamId','$firstName','Humanian-logo.png','$middleName','$lastName','".date("Y/m/d")."','$position')");
 
-      $insert = $connect->query("INSERT INTO `tblusers`(`userName`, `userEmail`, `userPassword`, `userType`, `userStatus`) VALUES ('$fullName','$email','$password','3','1')");
+      $insert = $connect->query("INSERT INTO `tblusers`(`userId`, `teamId`, `userName`, `userEmail`, `userPassword`, `userType`, `userStatus`) VALUES ('$users','$teamId','$fullName','$email','$password','3','1')");
 
       if($insert === TRUE){
           print '<script>alert("Employee Successfully Registered");</script>';
