@@ -2,6 +2,41 @@
 <html>
 <head>
 
+<?php
+
+session_start();
+
+include('connect.php');
+
+
+if($_SESSION['dbId'])
+{
+
+}
+else
+{
+
+
+}
+
+$user = $_SESSION['dbId'];
+$users = $_SESSION['dbId'];
+
+
+$select = $connect->query('SELECT * FROM tblusers WHERE ID = "' . $users .'"');
+
+while($row = $select->fetch_array()){
+
+  $team = $row['teamId'];
+  $userName = $row['userName'];
+}
+
+$result = $connect->query("SELECT * FROM tblemployees WHERE userId = '$users'");
+
+while($row = $result->fetch_array()){
+	$pic = $row['employeePicture'];
+}
+?>
 	<title>HUMANIAN - The Human Resource Portal</title>
 
 	<meta charset="utf-8">
@@ -34,49 +69,69 @@
 			</div>
 		</nav><hr/>
 
-	<div class="container-fluid" style="margin-top:60px;">
-  		<h4 class="text-left">Employee Self Services</h4><hr/>
+	<div class="container-fluid" style="margin-top:60px;margin-bottom:60px;">
   		<div class="row">
   			<div class="col-lg-6 col-sm-6 col-md-6">
   				<a href="self-service-leave.php" style="text-decoration: none">
-  				<div class="panel" id="self-services" style="height: 150px;box-shadow: 1px 1px 1px 1px #ccc;">
-  					<h2 class="text-center"><span class="glyphicon glyphicon-calendar"></span><br>Leave</h2>
+  				<div class="panel" id="self-services" style="height: 150px;box-shadow: 1px 1px 1px 1px #ccc;padding: 20px;">
+				  <div class='row' style='display:inline-flex'>
+				  	<div class="col-sm-2 col-md-2 col-lg-2">
+					  <span class="glyphicon glyphicon-calendar" style='font-size:60px;font-weight:bold;color:#008076;'></span>
+					</div>
+					<div class="col-sm-10 col-md-10 col-lg-10" style="padding-left:0px;">
+						<h2 class="text-left" style='font-size:25px;font-weight:bold;color:#008076;margin-top: auto;'>Time-Offs</h2>
+						<ul type="dots" style="color:#000;padding-left: 15px;">
+							<li>Time-Offs Request Viewer</li>
+							<li>Request Time-Off</li>
+						</ul>
+					</div>
+				  </div>
+					  
   				</div>
   				</a>
   			</div>
   			<div class="col-lg-6 col-sm-6 col-md-6">
   				<a href="self-service-overtime.php" style="text-decoration: none">
-  				<div class="panel" id="self-services" style="height: 150px;box-shadow: 1px 1px 1px 1px #ccc;">
-  					<h2 class="text-center"><span class="glyphicon glyphicon-time"></span><br>Overtime</h2>
+  				<div class="panel" id="self-services" style="height: 150px;box-shadow: 1px 1px 1px 1px #ccc;padding: 20px;">
+				  <div class='row' style='display:inline-flex'>
+				  	<div class="col-sm-2 col-md-2 col-lg-2">
+					  <span class="glyphicon glyphicon-time" style='font-size:60px;font-weight:bold;color:#008076;'></span>
+					</div>
+					<div class="col-sm-10 col-md-10 col-lg-10" style="padding-left:0px;">
+						<h2 class="text-left" style='font-size:25px;font-weight:bold;color:#008076;margin-top: auto;'>Overtime</h2>
+						<ul type="dots" style="color:#000;padding-left: 15px;">
+							<li>Overtime Request Viewer</li>
+							<li>Request Overtime</li>
+						</ul>
+					</div>
+				  </div>
+					  
   				</div>
   				</a>
   			</div>
   			<div class="col-lg-6 col-sm-6 col-md-6">
   				<a href="self-service-hr-concern.php" style="text-decoration: none">
-  				<div class="panel" id="self-services" style="height: 150px;box-shadow: 1px 1px 1px 1px #ccc;margin-bottom: 70px;">
-  					<h2 class="text-center"><span class="glyphicon glyphicon-file"></span><br>HR Concerns</h2>
+  				<div class="panel" id="self-services" style="height: 150px;box-shadow: 1px 1px 1px 1px #ccc;padding: 20px;">
+				  <div class='row' style='display:inline-flex'>
+				  	<div class="col-sm-2 col-md-2 col-lg-2">
+					  <span class="glyphicon glyphicon-book" style='font-size:60px;font-weight:bold;color:#008076;'></span>
+					</div>
+					<div class="col-sm-10 col-md-10 col-lg-10" style="padding-left:0px;">
+						<h2 class="text-left" style='font-size:25px;font-weight:bold;color:#008076;margin-top: auto;'>HR Concerns</h2>
+						<ul type="dots" style="color:#000;padding-left: 15px;">
+							<li>HR Concerns Viewer</li>
+							<li>File HR Concerns</li>
+						</ul>
+					</div>
+				  </div>
+					  
   				</div>
   				</a>
-  			</div>
-			  			
+  			</div>  			
   		</div>
 	</div>
 
-	<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
-			<div class="container-fluid">
-					<ul class="nav navbar-nav ">
-						<li><a href="user.php"><span class="glyphicon glyphicon-home" id="glyph"></span></a></li>
-						<li><a href="profile.php"><span class="glyphicon glyphicon-user" id="glyph"></span></a></li>
-						<li><a href="time-in.php"><span class="glyphicon glyphicon-camera" id="glyph"></span></a></li>
-						<li><a href="self-service.php"><span class="glyphicon glyphicon-file" id="glyph"></span></a></li>
-						<li><a href="sign-out.php"><span class="glyphicon glyphicon-log-out" id="glyph"></span></a></li>
-						
-					</ul>
-				
-			</div>
-		</nav>
-
-
+	<?php include('nav.php');?>
 	<script src ="../js/jquery.js"></script>
     <script src="../js/bootstrap.js"></script>
 

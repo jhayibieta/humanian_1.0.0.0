@@ -20,6 +20,9 @@ button#log-in-button {
     background-color: #008076;
     color: #000;	
 }
+div#post-row {
+    display: inline-flex;
+}
 span#glyph {
     color: #fff;
     font-weight: bold;

@@ -2,6 +2,42 @@
 <html>
 <head>
 
+<?php
+
+session_start();
+
+include('connect.php');
+
+
+if($_SESSION['dbId'])
+{
+
+}
+else
+{
+
+
+}
+
+$user = $_SESSION['dbId'];
+$users = $_SESSION['dbId'];
+
+
+$select = $connect->query('SELECT * FROM tblusers WHERE ID = "' . $users .'"');
+
+while($row = $select->fetch_array()){
+
+  $team = $row['teamId'];
+  $userName = $row['userName'];
+}
+
+$result = $connect->query("SELECT * FROM tblemployees WHERE userId = '$users'");
+
+while($row = $result->fetch_array()){
+	$pic = $row['employeePicture'];
+}
+?>
+
 	<title>HUMANIAN - The Human Resource Portal</title>
 
 	<meta charset="utf-8">
@@ -34,33 +70,53 @@
 			</div>
 		</nav><hr/>
 
-	<div class="container-fluid" style="margin-top:60px;">
-  		<h4 class="text-left">E.S.S - Leave</h4><hr/>
-      <div class="row">
-        <div class="col-lg-6 col-sm-6 col-md-6">
-          <div class="panel" id="self-services" style="height: 150px;box-shadow: 1px 1px 1px 1px #ccc;">
-           </div>
-          
-        </div>
+	<div class="container-fluid" style="margin-top:60px;margin-bottom:60px;">
+  		
+		  <?php
+
+error_reporting(0);
+
+include('../connect.php');
+
+$employees = $connect->query("SELECT * FROM tbltimeoff WHERE userId = '$users' ORDER BY toId DESC");
+
+
+if($employees->num_rows > 0)
+{
+	while($row = $employees->fetch_array()){
+		echo "<div class='panel' id='dashboard-card' style='padding: 15px;'>";
+		echo "<div class='row' style='display:inline-flex'>";
+		echo '<div class="col-sm-2 col-md-2 col-lg-2">';
+		if($row['toType'] === 'VACATION LEAVE'){
+			echo '<img src="../img/VL.png" class="img" style="width:90px;height:90px;margin-top: 10px;"/>';
+		}
+		else{
+			echo '<img src="../img/SL.png" class="img" style="width:90px;height:90px;margin-top: 10px;"/>';
+		}
+		echo "</div>";
+		echo '<div class="col-sm-10 col-md-10 col-lg-10" style="padding-left:0px;">';
+		echo "<h2 class='text-left' id='approval-header' style='font-size:19px;font-weight:bold;color:#008076;'>" . $row['toType']. "</h2>";
+		echo "<h4 class='text-left' id='approval-body' style='margin-top:10px;font-size: 11px;'>FROM: " . $row['toDateFrom']. " TO: ". $row['toDateTo']."</h4>";
+		echo "<h4 class='text-left' id='approval-body' style='font-size: 11px;'>Time-Off Status: " . $row['toStatus']. "</h4>";
+		echo "</div>";
+		echo "</div>";
+		echo "</div>";
+	}
+	
+}else{
+   echo '<h4 class="text-center">No Records Yet</h4>';
+
+}
+
+?>
+
+
         
       </div>
   		
 	</div>
 
-	<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
-			<div class="container-fluid">
-					<ul class="nav navbar-nav ">
-						<li><a href="user.php"><span class="glyphicon glyphicon-home" id="glyph"></span></a></li>
-						<li><a href="profile.php"><span class="glyphicon glyphicon-user" id="glyph"></span></a></li>
-						<li><a href="time-in.php"><span class="glyphicon glyphicon-camera" id="glyph"></span></a></li>
-						<li><a href="self-service.php"><span class="glyphicon glyphicon-file" id="glyph"></span></a></li>
-						<li><a href="sign-out.php"><span class="glyphicon glyphicon-log-out" id="glyph"></span></a></li>
-						
-					</ul>
-				
-			</div>
-		</nav>
-
+	<?php include('nav.php');?>
 
 	<script src ="../js/jquery.js"></script>
     <script src="../js/bootstrap.js"></script>

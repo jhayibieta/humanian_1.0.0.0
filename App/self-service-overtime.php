@@ -2,6 +2,42 @@
 <html>
 <head>
 
+<?php
+
+session_start();
+
+include('connect.php');
+
+
+if($_SESSION['dbId'])
+{
+
+}
+else
+{
+
+
+}
+
+$user = $_SESSION['dbId'];
+$users = $_SESSION['dbId'];
+
+
+$select = $connect->query('SELECT * FROM tblusers WHERE ID = "' . $users .'"');
+
+while($row = $select->fetch_array()){
+
+  $team = $row['teamId'];
+  $userName = $row['userName'];
+}
+
+$result = $connect->query("SELECT * FROM tblemployees WHERE userId = '$users'");
+
+while($row = $result->fetch_array()){
+	$pic = $row['employeePicture'];
+}
+?>
+
 	<title>HUMANIAN - The Human Resource Portal</title>
 
 	<meta charset="utf-8">
@@ -35,24 +71,43 @@
 		</nav><hr/>
 
 	<div class="container-fluid" style="margin-top:60px;">
-  		<h4 class="text-left">E.S.S - Overtime</h4><hr/>
-  		
+		  <?php
+
+				error_reporting(0);
+
+				include('connect.php');
+
+				$overtime = $connect->query("SELECT * FROM tblovertime WHERE userId = '$users' ORDER BY overtimeId DESC");
+
+
+				if($overtime->num_rows > 0)
+				{
+					while($row = $overtime->fetch_array()){
+						echo "<div class='panel' id='dashboard-card' style='padding: 15px;'>";
+						echo "<div class='row' style='display:inline-flex'>";
+						echo '<div class="col-sm-2 col-md-2 col-lg-2">';
+						echo '<img src="../img/overtime.png" class="img" style="width:90px;height:90px;margin-top: 10px;"/>';
+						echo "</div>";
+						echo '<div class="col-sm-10 col-md-10 col-lg-10" style="padding-left:0px;">';
+						echo "<h2 class='text-left' id='approval-header'style='font-size:19px;font-weight:bold;color:#008076;'>" . $row['overtimeReason']. "</h2>";
+						echo "<h4 class='text-left' id='approval-body' style='margin-top:10px;font-size: 11px;'>FROM: " . $row['overtimeFrom']. " &nbsp; TO: ". $row['overtimeTo']."</h4>";
+						echo "<h4 class='text-left' id='approval-body' style='font-size: 11px;'>Date Filed: " . $row['overtimeDate']. "</h4>";
+						echo "</div>";
+						echo "</div>";
+						echo "</div>";
+					}
+					
+				}else{
+				echo '<h4 class="text-center">No Records Yet</h4>';
+
+				}
+
+
+			?>
+
 	</div>
 
-	<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
-			<div class="container-fluid">
-					<ul class="nav navbar-nav ">
-						<li><a href="user.php"><span class="glyphicon glyphicon-home" id="glyph"></span></a></li>
-						<li><a href="profile.php"><span class="glyphicon glyphicon-user" id="glyph"></span></a></li>
-						<li><a href="time-in.php"><span class="glyphicon glyphicon-camera" id="glyph"></span></a></li>
-						<li><a href="self-service.php"><span class="glyphicon glyphicon-file" id="glyph"></span></a></li>
-						<li><a href="sign-out.php"><span class="glyphicon glyphicon-log-out" id="glyph"></span></a></li>
-						
-					</ul>
-				
-			</div>
-		</nav>
-
+	<?php include('nav.php');?>
 
 	<script src ="../js/jquery.js"></script>
     <script src="../js/bootstrap.js"></script>
