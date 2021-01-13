@@ -19,7 +19,6 @@ $(function() {
 
   });
 
-
   $('[rel="tooltip"]').tooltip();
 
 });

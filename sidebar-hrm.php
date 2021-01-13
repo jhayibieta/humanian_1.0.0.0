@@ -18,7 +18,7 @@ else
 $user = $_SESSION['dbId'];
 $users = $_SESSION['dbId'];
 
-
+	
 $select = $connect->query('SELECT * FROM tblteams WHERE teamUser = "' . $users .'"');
 
 while($row = $select->fetch_array()){

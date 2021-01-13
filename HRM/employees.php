@@ -49,7 +49,7 @@
 								    {
                                         echo '<div id="search-results">';
                     			while($row = $employees->fetch_array()){
-                              echo '<a href="view-employee-info.php?$id=' . $row['employeeId']. '">';
+                              echo '<a href="view-employee-info.php?id=' . $row['employeeId']. '">';
                               echo "<div class='panel' id='dashboard-card' style='padding: 15px;'>";
                               echo "<div class='row'>";
                               echo '<div class="col-sm-2 col-md-2 col-lg-2">';

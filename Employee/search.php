@@ -1,9 +1,13 @@
 <?php
     require("../connect.php");
 
+    session_start();
+
+    $teamid = $_SESSION['dbteam'];
+
     $search = $_GET['search'];
 
-    $query = "SELECT * FROM tblemployees WHERE employeeSurname LIKE '%$search%'";
+    $query = "SELECT * FROM tblemployees WHERE teamId = '$teamid' AND employeeSurname LIKE '%$search%'";
     $result = $connect->query($query);
 
     if($result->num_rows > 0) {

@@ -7,7 +7,7 @@
     $users = $_SESSION['dbId'];
 
     if(isset($_GET['search'])){
-        $query = "SELECT * FROM tbltimeoff WHERE toStatus ='$search' AND userId = '$users'";
+        $query = "SELECT * FROM tbltimeoff WHERE toStatus LIKE '%$search%' AND userId = '$users'";
 
         $result = $connect->query($query);
 

@@ -32,6 +32,17 @@
         margin-left: 510px;
         margin-top: 20px;
     }
+
+    .img-profile4 {
+        position: relative;
+        z-index: 2;
+        width: 125px;
+        height: 120px;
+        border-radius: 50%;
+        border: 1px solid black;
+        top: 120px;
+        left: 120px;
+    }
     .call-div {
         position: absolute; 
         left: 750px; 
@@ -120,13 +131,13 @@
     .partner-chatname1 {
         position: absolute; 
         left: 390px; 
-        top: 140px;
+        top: 100px;
     }
 
     .sent-time2 {
         position: absolute; 
         left: 390px; 
-        top: 160px;
+        top: 120px;
         color: #ccc;
     }
 
@@ -188,7 +199,7 @@
                         echo '<div class="container-fluid">';
                         echo '<div class="row">';
                         echo '<div class="col-md-6 lg-6 sm-12">';
-                        echo '<h5 class="text-center"><a href="">View</a></h5>';
+                        echo '<h5 class="text-center"><a href="javascript:void(0);" data-id="'.$row['employeeId'].'" id="viewProfile">View</a></h5>';
                         echo '</div>';
                         echo '<div class="col-md-6 lg-6 sm-12">';
                         echo '<h5 class="text-center"><a href="javascript:void(0);" data-id="'.$row['employeeId'].'" id="messageChat">Message</a></h5>';
@@ -215,6 +226,12 @@
 
                 </div>
             </div>
+
+            <div id="viewprofile" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                  
+                  </div>
+            </div>
         </div>
     <script src ="../js/jquery.js"></script>
     <script src="../js/bootstrap.js"></script>
@@ -238,19 +255,31 @@
             });
 
             $('#messageChat').click(function(){
-                var id = $(this).data('id');
+                var id = $(this).data('id')
                 $.ajax({
                     type: "GET",
                     url: "chat.php?id=" + id,
                     data: {id: id},
                     success: function(data) {
-                        $('.modal-dialog').html(data);
-
-                        $('#messageModal').modal('show');
+                        $('.modal-dialog').html(data)
+                        $('#messageModal').modal('show')
                     }
                 });
-            })
-        });
+            });
+
+            $('#viewProfile').click(function(){
+                var id = $(this).data('id');
+                $.ajax({
+                    type: "GET",
+                    url: "view-profile.php?id=" + id,
+                    data: {id: id},
+                    success: function(data) {
+                        $('.modal-dialog').html(data)
+                        $('#viewprofile').modal('show')
+                    }
+                });
+            });
+        })
     </script>
 
     <script>

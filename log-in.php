@@ -10,7 +10,7 @@ $password = SHA1($_POST['password']);
 
 if($email&&$password)
 {
-    $result = $connect->query("SELECT * FROM tblusers WHERE userEmail = '$email' AND userPassword = '$password'");
+    $result = $connect->query("SELECT * FROM tblusers WHERE userEmail = '$email' AND userPassword = '$password' AND status = 1");
 
     if($result->num_rows > 0)
     {
@@ -29,6 +29,7 @@ if($email&&$password)
             print '<script>console.log("success");</script>';
             header("Location:Employee/index.php");
             $_SESSION['dbId'] = $dbId;
+            $_SESSION['dbteam'] = $dbteam;
       }
       else if($email==$dbemail&&$password==$dbpass&&$dbtype==2&&$dbstatus==1){
 

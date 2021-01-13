@@ -1,9 +1,12 @@
 <?php 
     require("../connect.php");
+    session_start();
 
     $search = $_GET['search'];
 
-    $query = 'SELECT * FROM tblhrconcern WHERE hrcTitle LIKE "%$search%"';
+    $dbId = $_SESSION['dbId'];
+
+    $query = "SELECT * FROM tblhrconcern WHERE userId = '$dbId' AND hrcTitle LIKE '%$search%' ORDER BY hrcId DESC";
 
     $result = $connect->query($query);
 

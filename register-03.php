@@ -18,23 +18,24 @@
 
 	<div class="container" >
 
-				<div class="panel" style="background:url('img/background.jpg')top center no-repeat;background-size: cover;height: 565px;box-shadow: 1px 1px 1px 1px #ccc;margin-top: 40px;border-radius: 0px;padding:30px;">
-					<div class="row">
-						<div class="col-md-6 col-lg-6 col-sm-12">
-							<h3 class="text-left">Step 3 of 4: Account Confirmation</h3><br/>
-							<form action="register-02.php" method="POST">
+			<div class="panel" style="background:url('img/background.jpg')top center no-repeat;background-size: cover;height: 565px;box-shadow: 1px 1px 1px 1px #ccc;margin-top: 40px;border-radius: 0px;padding:30px;">
+				<div class="row">
+					<div class="col-md-6 col-lg-6 col-sm-12">
+						<h3 class="text-left">Step 3 of 4: Email Verification</h3><br/>
+						<form action="register-02.php" method="POST">
+							<label>Enter your email address:</label>
+							<input type="email" name="phnumber" class="form-control" required>
+							<div style="display: block; margin-top: 15px;">
 								<label>Enter 6-digit code:</label>
-								<input type="email" name="firstname" id="Firstname" class="form-control" required><br/>
-								<button class="btn btn-md btn-success" name="next">Next</button>
-							</form>
-						</div>
-						<div class="col-md-6 col-lg-6 col-sm-12">
-							
-						</div>
+								<input type="text" name="firstname" id="Firstname" class="form-control" required><br/>
+							</div>
+							<button class="btn btn-md btn-success" name="next">Next</button>
+						</form>
 					</div>
-				<form action="register-01.php" method="POST" id="log-in-form">
-				
-				</form>
+					<div class="col-md-6 col-lg-6 col-sm-12">
+						
+					</div>
+				</div>
 			</div>
 				
 

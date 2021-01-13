@@ -57,6 +57,7 @@
                             <button type="button" onclick="getBack()" name="close" class="btn btn-default pull-left" style="font-weight: bold;border-radius:20px;">BACK TO MAIN PAGE</button>
                       </div>
                       <div class="col-sm-6 col-md-6 col-lg-6">
+                            <input type="hidden" name="emailcode" id="emailcode" value="<?php $str=rand(); $result = md5($str); echo $result?>">
                             <input type="submit" name="submit" class="btn btn-primary pull-right" style="background-color: #008076;
         font-weight: bold;border-radius:20px;" value="SAVE DEPARTMENT">
                       </div>
@@ -71,6 +72,8 @@
 
     <script src ="../js/jquery.js"></script>
     <script src="../js/bootstrap.js"></script>
+
+    <script src="../js/sweetalert.min.js"></script>
 
     <script>window.jQuery || document.write(\script src="../js/jquery-1.8.2.min.js\><\/script>")</script>
 
@@ -95,22 +98,39 @@
     $password = SHA1('password');
     $fullName = $firstName . ' ' . $middleName . ' ' . $lastName;
 
-    $select  = $connect->query("SELECT max(ID) as userId from tblusers");
+    $emailcode = $_POST['emailcode'];
 
+    $select  = $connect->query("SELECT max(ID) as userId from tblusers");
+    
+    
     while($row = $select->fetch_array()){
       $userId = $row['userId'];
     }
 
     if(isset($_POST['submit'])){
 
+      $insert = $connect->query("INSERT INTO `tblusers`(`teamId`, `userName`, `userEmail`, `userPassword`, `userType`, `userStatus`, `status`) VALUES ('$teamId','$fullName','$email','$password','3','1', '0')");
 
       $insert = $connect->query("INSERT INTO `tblemployees`(`userId`, `teamId`, `employeeFirstname`, `employeePicture`, `employeeMiddlename`, `employeeSurname`, `employeeCreated`, `employeePosition`)
-       VALUES ('$users','$teamId','$firstName','Humanian-logo.png','$middleName','$lastName','".date("Y/m/d")."','$position')");
-
-      $insert = $connect->query("INSERT INTO `tblusers`(`userId`, `teamId`, `userName`, `userEmail`, `userPassword`, `userType`, `userStatus`) VALUES ('$users','$teamId','$fullName','$email','$password','3','1')");
+       VALUES (LAST_INSERT_ID(), '$teamId', '$firstName', 'Humanian-logo.png','$middleName','$lastName','".date("Y/m/d")."','$position')");
 
       if($insert === TRUE){
-          print '<script>alert("Employee Successfully Registered");</script>';
+          $to = $email;
+          $subject = "Click on the link to verify your account";
+          $message = "<a href='http://localhost/humanian/verify.php?emailcode=$emailcode'>Verify your account</a>";
+          $headers = "From: centrive@centrive.com \r\n";
+          $headers .= "MIME-Version: 1.0". "\r\n";
+          $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+          mail($to, $subject, $message, $headers);
+          
+          print '<script>
+              swal({
+                  title: "Employee Successfully Registered",
+                  text: "Registered Successfully",
+                  icon: "success"
+              });
+          </script>';
           print '<script>window.location.assign("employees.php");</script>';
       }
       else{

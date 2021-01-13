@@ -27,7 +27,7 @@
 
 				<div class="row">
 					<div class="col-md-6 lg-6">
-						<a class="btn btn-link" id="left">Forgot Password?</a>
+						<a class="btn btn-link" href="forgotpassword.php" id="left">Forgot Password?</a>
 					</div>
 					<div class="col-md-6 lg-6">
 						<a href="register-01.php" class="btn btn-link" id="right">Create Account</a>

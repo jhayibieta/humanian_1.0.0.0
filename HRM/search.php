@@ -1,9 +1,19 @@
 <?php
     require("../connect.php");
+    session_start();
+
+    $users = $_SESSION['dbId'];
+
+    $select = $connect->query('SELECT * FROM tblteams WHERE teamUser = "' . $users .'"');
+
+    while($row = $select->fetch_array()){
+        $teamId = $row['teamId'];
+        $team = $row['teamName'];
+    }
 
     $search = $_GET['search'];
 
-    $query = "SELECT * FROM tblemployees WHERE employeeSurname LIKE '%$search%'";
+    $query = "SELECT * FROM tblemployees WHERE employeeSurname LIKE '%$search%' AND teamId = '$teamId'";
     $result = $connect->query($query);
 
     if($result->num_rows > 0) {

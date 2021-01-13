@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+error_reporting(0);
 
 include('connect.php');
 
@@ -61,11 +62,74 @@ if(isset($_POST['save']))
 	$zipc = $_POST['zipc'];
 	$contactno = $_POST['contactno'];
 
-	$check = $connect->query("SELECT * FROM tbldetails WHERE userId = $users");
+	$target_dir = '../uploads/';
+	$target_file = $target_dir . basename($_FILES["profilepic"]["name"]);
+	$uploadOk = 1;
+	$imageFiletype = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+	$check = getimagesize($_FILES["profilepic"]["tmp_name"]);
+	if($check !== false)
+	{
+		echo "File is an image - " . $check["mime"] . ".";
+		$uploadOk = 1;
+	}
+	else {
+		echo "File is not an image";
+		$uploadOk = 0;
+	}
+
+	if(is_writable(dirname($target_file)))
+		{
+			if(move_uploaded_file($_FILES["profilepic"]["tmp_name"], $target_file))
+			{
+				echo "<script>alert('The file".basename($_FILES["profilepic"]["name"])."has been uploaded')</script>";
+			}
+			else {
+				echo "<script>alert('Sorry the file is not uploaded')</script>";
+			}
+		}
+
+	$target_dir1 = '../uploads/';
+	$target_file2 = $target_dir1 . basename($_FILES["coverphoto"]["name"]);
+	$uploadOk1 = 1;
+	$imageFiletype2 = strtolower(pathinfo($target_file2, PATHINFO_EXTENSION));
+
+	$check = getimagesize($_FILES["coverphoto"]["tmp_name"]);
+	if($check !== false)
+	{
+		echo "File is an image - " . $check["mime"] . ".";
+		$uploadOk1 = 1;
+	}
+	else {
+		echo "File is not an image";
+		$uploadOk1 = 0;
+	}
+
+	if(is_writable(dirname($target_file2)))
+		{
+			if(move_uploaded_file($_FILES["coverphoto"]["tmp_name"], $target_file2))
+			{
+			}
+			else {
+
+			}
+		}
+	
+	$check = $connect->query("SELECT * FROM tbldetails WHERE userId = '$users'");
+
+	$result = $connect->query("SELECT * FROM tblemployees WHERE userId = '$users'");
+
+	while($row = $result->fetch_array()){
+		$emid = $row['employeeId'];
+		$pic = $row['employeePicture'];
+		$firstname = $row['employeeFirstname'];
+		$middlename = $row['employeeMiddlename'];
+		$lastname = $row['employeeSurname'];
+	}
 
 	if($check->num_rows > 0)
 	{
-		$query = $connect->query("UPDATE tbldetails SET employeeId = '$emid', detailAge = '$age', detailBirthdate = '$bdate', detailGender = '$gnder', detailHouselot = '$hlot', detailContact = '$contactno', detailBarangaycity = '$brgy', detailCountry = '$cntry', detailPostalCode = '$zipc', detailPhoto = 'sample.png', detailCover = 'Sample.jpg'");
+		$query = $connect->query("UPDATE tbldetails SET employeeId = '$emid', detailAge = '$age', detailBirthdate = '$bdate', detailGender = '$gnder', detailHouselot = '$hlot', detailContact = '$contactno', detailBarangaycity = '$brgy', detailCountry = '$cntry', detailPostalCode = '$zipc', detailPhoto = '$target_file', detailCover = '$target_file2'");
 
 		if($query === true) {
 			print '<script>alert("Employee Data Successfully Updated");</script>';
@@ -73,7 +137,7 @@ if(isset($_POST['save']))
 		}
 	}
 	else {
-		$query = $connect->query("INSERT INTO `tbldetails`(`employeeId`,`userId`, `detailAge`, `detailBirthdate`, `detailGender`, `detailHouselot`, `detailBarangaycity`, `detailCountry`, `detailStatus`, `detailContact`, `detailPostalCode`, `detailPhoto`, `detailCover`) VALUES ('$emid', '$users', '$age', 'bdate', '$gnder', '$hlot', '$brgy', '$cntry', 'Active', '$zipc', '$contactno', 'sample.png', 'Sample.jpg')");
+		$query = $connect->query("INSERT INTO `tbldetails`(`employeeId`,`userId`, `detailAge`, `detailBirthdate`, `detailGender`, `detailHouselot`, `detailBarangaycity`, `detailCountry`, `detailStatus`, `detailContact`, `detailPostalCode`, `detailPhoto`, `detailCover`) VALUES ('$emid', '$users', '$age', '$bdate', '$gnder', '$hlot', '$brgy', '$cntry', 'Active', '$zipc', '$contactno', '$target_file', '$target_file2')");
 
 		if($query === true) {
 			print '<script>alert("Employee Data Successfully Inserted");</script>';
@@ -147,142 +211,145 @@ if(isset($_POST['save']))
 						<li><a href="sign-out.php"><span class="glyphicon glyphicon-log-out" id="glyph"></span></a></li>
 					</ul>
 				</div>
+			</div>
+		</nav>
 
-				<div class="modal fade" id="infoModal" role="modal">
-					<div class="modal-dialog modal-lg">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">Edit My Profile</h4>
-							</div>
+		<div class="modal fade" id="infoModal" role="modal">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Edit My Profile</h4>
+					</div>
 
-							<div class="modal-body">
-								<div>
-									<form method="POST" name="update-employee">
-										<div class="img-profile"></div>
-										<div class="form-group" style="position: absolute; top: 40px; left: 350px; width: 100%;">
-											<div class="col-md-4">
-												<label class="col-form-label">Upload Photo:</label>
-												<input type="file" class="form-control" name="picture">
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group" style="margin-top: 20px">
-												<div class="col-md-4">
-													<label class="col-form-label">First Name:</label>
-													<input type="text" value="<?php echo $firstname ?>" class="form-control" name="fname">
-												</div>
-											</div>
+					<div class="modal-body">
+						<div>
+							<form method="POST" name="update-employee" enctype="multipart/form-data">
+								<div class="img-profile">
+									<img src="../img/<?php echo $pic; ?>" style="position: absolute; top: 5px; left: 192px; width: 165px; height: 135px; border-radius: 50%;" alt="">
+								</div>
+								<div class="form-group" style="position: absolute; top: 10px; left: 350px; width: 100%;">
+									<div class="col-md-4">
+										<label class="col-form-label">Upload Profile Photo:</label>
+										<input type="file" class="form-control" name="profilepic">
+									</div>
+								</div>
 
-											<div class="form-group">
-												<div class="col-md-4">
-													<label class="col-form-label">Middle Name:</label>
-													<input type="text" value="<?php echo $middlename ?>" class="form-control" name="mname">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<div class="col-md-4">
-													<label class="col-form-label">Last Name:</label>
-													<input type="text" class="form-control" value="<?php echo $lastname ?>" name="lname">
-												</div>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="form-group" style="margin-top: 20px">
-												<div class="col-md-4">
-													<label class="col-form-label">Age:</label>
-													<select name="age" class="form-control" id="">
-															<option disabled>----</option>
-															<option value="" selected><?php echo $age; ?></option>
-															<?php
-																for($j = 1; $j <= 100; $j++)
-																{
-																	echo "<option value='". $j ."'>". $j . "</option>";
-																}
-															?>
-													</select>
-												</div>
-											</div>
-
-											<div class="form-group">
-												<div class="col-md-4">
-													<label class="col-form-label">Birthdate:</label>
-													<input type="text" id="datepicker" class="form-control" name="bdate">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<div class="col-md-4">
-													<label class="col-form-label">Gender:</label>
-													<select name="gnder" class="form-control" id="">
-														<option selected disabled>---</option>
-														<option value="" selected><?php echo $gender; ?></option>
-														<option value="Male">Male</option>
-														<option value="Female">Female</option>
-													</select>
-												</div>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="form-group" style="margin-top: 20px">
-												<div class="col-md-4">
-													<label class="col-form-label">House Lot:</label>
-													<input type="text" class="form-control" value="<?php echo $houselot ?>" name="hlot">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<div class="col-md-4">
-													<label class="col-form-label">Barangay and City:</label>
-													<input type="text" class="form-control" value="<?php echo $brgycity ?>" name="brgy">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<div class="col-md-4">
-													<label class="col-form-label">Country:</label>
-													<input type="text" class="form-control" value="<?php echo $country ?>" name="cntry">
-												</div>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="form-group" style="margin-top: 20px;">
-												<div class="col-md-4">
-													<label class="col-form-label">Postal/Zip Code:</label>
-													<input type="text" class="form-control" value="<?php echo $zipcode ?>" name="zipc">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<div class="col-md-4">
-													<label class="col-form-label">Contact Number:</label>
-													<input type="text" class="form-control" value="<?php echo $contact ?>" name="contactno">
-												</div>
-											</div>
-
-											<div class="form-group">
-												<div class="col-md-4">
-													<label class="col-form-label">Cover Photo:</label>
-													<input type="text" class="form-control" name="cover">
-												</div>
-											</div>
+								<div class="form-group" style="position: absolute; top: 80px; left: 350px; width: 100%;">
+									<div class="col-md-4">
+										<label class="col-form-label">Upload Cover Photo:</label>
+										<input type="file" class="form-control" name="coverphoto">
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="form-group" style="margin-top: 20px">
+										<div class="col-md-4">
+											<label class="col-form-label">First Name:</label>
+											<input type="text" value="<?php echo $firstname ?>" class="form-control" name="fname">
 										</div>
 									</div>
 
-									<div class="modal-footer">
-										<button type="submit" name="save" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> SAVE</button>
+									<div class="form-group">
+										<div class="col-md-4">
+											<label class="col-form-label">Middle Name:</label>
+											<input type="text" value="<?php echo $middlename ?>" class="form-control" name="mname">
+										</div>
 									</div>
-								</form>
+
+									<div class="form-group">
+										<div class="col-md-4">
+											<label class="col-form-label">Last Name:</label>
+											<input type="text" class="form-control" value="<?php echo $lastname ?>" name="lname">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group" style="margin-top: 20px">
+										<div class="col-md-4">
+											<label class="col-form-label">Age:</label>
+											<select name="age" class="form-control" id="">
+													<option disabled>----</option>
+													<option value="" selected><?php echo $age; ?></option>
+													<?php
+														for($j = 1; $j <= 100; $j++)
+														{
+															echo "<option value='". $j ."'>". $j . "</option>";
+														}
+													?>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-md-4">
+											<label class="col-form-label">Birthdate:</label>
+											<input type="text" id="datepicker" class="form-control" name="bdate">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-md-4">
+											<label class="col-form-label">Gender:</label>
+											<select name="gnder" class="form-control" id="">
+												<option selected disabled>---</option>
+												<option value="" selected><?php echo $gender; ?></option>
+												<option value="Male">Male</option>
+												<option value="Female">Female</option>
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group" style="margin-top: 20px">
+										<div class="col-md-4">
+											<label class="col-form-label">House Lot:</label>
+											<input type="text" class="form-control" value="<?php echo $houselot ?>" name="hlot">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-md-4">
+											<label class="col-form-label">Barangay and City:</label>
+											<input type="text" class="form-control" value="<?php echo $brgycity ?>" name="brgy">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-md-4">
+											<label class="col-form-label">Country:</label>
+											<input type="text" class="form-control" value="<?php echo $country ?>" name="cntry">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group" style="margin-top: 20px;">
+										<div class="col-md-4">
+											<label class="col-form-label">Postal/Zip Code:</label>
+											<input type="text" class="form-control" value="<?php echo $zipcode ?>" name="zipc">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-md-4">
+											<label class="col-form-label">Contact Number:</label>
+											<input type="text" class="form-control" value="<?php echo $contact ?>" name="contactno">
+										</div>
+									</div>
+								</div>
 							</div>
-						</div>
+
+							<div class="modal-footer">
+								<button type="submit" name="save" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> SAVE</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
-		</nav>
+		</div>
 
 	<script src ="../js/jquery.js"></script>
 	<script src="../js/bootstrap.js"></script>

@@ -2,8 +2,9 @@
       
       include("../sidebar-hrm.php");
       include("../connect.php");
-
-      $id = $_GET['$id'];
+      
+      error_reporting(0);
+      $id = $_GET['id'];
 
       $employee = $connect->query("SELECT * FROM tblemployees WHERE employeeId = '$id'");
 
@@ -14,7 +15,7 @@
         $pic = $row['employeePicture'];
         $position = $row['employeePosition'];
         $start = $row['employeeStartDate'];
-
+        $status = $row['status'];
       }
 
       $details = $connect->query("SELECT * FROM tbldetails WHERE employeeId = '$id'");

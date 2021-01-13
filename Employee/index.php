@@ -91,6 +91,14 @@
                     <div class="col-md-4 lg-4 sm-4">
                         <div class="panel" id="dashboard-card">
                             <h5 class="text-left" id="card-header">TIME-IN / TIME-OUT:</h5><hr/>
+                            <div class="card-body">
+                                <h2 style="font-weight: bolder; margin-left: 10px; margin-top: 47px;">08:44 AM</p>
+                                <p style="font-size: 100px; font-weight: 100; position: absolute; top: 50px; left: 155px; color: #1D8E86">|</p>
+
+                                <div style="position: absolute; top: 0; left: 150px; top: 75px;">
+                                  <h2 style="font-weight: bold; margin-left: 30px;">08:44 AM</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 lg-4 sm-4">
